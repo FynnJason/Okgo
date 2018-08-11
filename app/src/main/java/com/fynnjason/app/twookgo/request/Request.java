@@ -30,17 +30,18 @@ public class Request {
         return new StringCallback() {
             @Override
             public void onSuccess(Response<String> response) {
-                //将data后的json加密处理
+                //获取data:的位置
                 int i = response.body().indexOf("\"data\":");
+                //获取data:后面的string
                 String json = response.body().substring(i + 7, response.body().length() - 1);
-                //重新编写json数据，方便统一处理
+                //加密json数据，重写写入json
                 String endJson = response.body().replace(json, "\"" + Encypt.en(json) + "\"");
                 try {
                     BaseModel baseModel = ConverUtils.fromJson(endJson, BaseModel.class);
                     if (baseModel.getCode() == 200) {
                         //解密返回json
                         String deJson = Encypt.de(baseModel.getData());
-                        //判断有无数据
+                        //判断有无数据，根据自身公司实际情况，看写不写这句话，比如列表数据，有的公司是特定的code说明无更多数据，有的公司code永远是200，只叫你判断返回的数组是不是空
                         if (deJson.equals("[]")) {
                             callBack.success(null);
                         } else {
