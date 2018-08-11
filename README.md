@@ -29,7 +29,6 @@ Okgo二次封装，减少冗余代码，AES加密与解密，使用过Okgo的朋
 {
     "code": 200,
     "msg": "SUCCESS",
-    "count": 1000,
     "data": [
         {
             "itemid": "1",
